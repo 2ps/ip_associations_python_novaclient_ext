@@ -16,65 +16,93 @@ from novaclient import base
 from novaclient.openstack.common import cliutils as utils
 
 
-class Network(base.Resource):
+class IPAssociation(base.Resource):
     def delete(self):
-        self.manager.delete(network=self)
+        self.manager.delete(ip_association=self)
 
 
-class NetworkManager(base.ManagerWithFind):
+class IPAssociationManager(base.ManagerWithFind):
     resource_class = base.Resource
 
-    def list(self):
-        return self._list('/os-networksv2', 'networks')
+    def list(self, server):
+        return self._list('/servers/%s/ip_associations' % base.getid(server),
+                          'ip_associations')
 
-    def get(self, network):
-        return self._get('/os-networksv2/%s' % base.getid(network), 'network')
+    def get(self, server, ip_association):
+        return self._get('/servers/%s/ip_associations/%s' % (
+            base.getid(server), base.getid(ip_association)),
+            'ip_association')
 
-    def delete(self, network):
-        self._delete('/os-networksv2/%s' % base.getid(network))
+    def delete(self, server, ip_association):
+        self._delete('/servers/%s/ip_associations/%s' % (
+            base.getid(server), base.getid(ip_association)))
 
-    def create(self, label, cidr):
-        body = {'network': {'label': label, 'cidr': cidr}}
-        return self._create('/os-networksv2', body, 'network')
+    def create(self, server, ip_association):
+        body = {'ip_association': {}}
+        # idempotent PUT
+        response = self._update(
+            '/servers/%s/ip_associations/%s' % (
+                base.getid(server), base.getid(ip_association)),
+            body,
+            'ip_association')
+        return response
 
 
-@utils.arg('network_id', metavar='<network_id>', help='ID of network')
-def do_network(cs, args):
+@utils.arg('ip_association_id',
+           metavar='<ip_association_id>',
+           help='ID of IP association')
+@utils.arg('instance_id',
+           metavar='<instance_id>',
+           help='ID of instance')
+def do_ip_association(cs, args):
     """
-    Show a network
+    Show an IP association
     """
-    network = cs.os_networksv2_python_novaclient_ext.get(args.network_id)
-    utils.print_dict(network._info)
+    ip_association = cs.ip_associations_python_novaclient_ext.get(
+        args.instace_id, args.ip_association_id)
+    utils.print_dict(ip_association._info)
 
 
-do_network_show = do_network
+do_ip_association_show = do_ip_association
 
 
-def do_network_list(cs, args):
+@utils.arg('instance_id',
+           metavar='<instance_id>',
+           help='ID of instance')
+def do_ip_association_list(cs, args):
     """
-    List networks
+    List IP associations
     """
-    networks = cs.os_networksv2_python_novaclient_ext.list()
-    utils.print_list(networks, ['ID', 'Label', 'CIDR'])
+    ip_associations = cs.ip_associations_python_novaclient_ext.list(
+        args.instance_id)
+    utils.print_list(ip_associations, ['ID', 'Address'])
 
 
-@utils.arg('label', metavar='<network_label>',
-           help='Network label (ex. my_new_network)')
-@utils.arg('cidr', metavar='<cidr>',
-           help='IP block to allocate from (ex. 172.16.0.0/24 or '
-                '2001:DB8::/64)')
-def do_network_create(cs, args):
+@utils.arg('ip_association_id',
+           metavar='<ip_association_id>',
+           help='ID of IP association')
+@utils.arg('instance_id',
+           metavar='<instance_id>',
+           help='ID of instance')
+def do_ip_association_create(cs, args):
     """
-    Create a network
+    Create an IP association
     """
-    network = cs.os_networksv2_python_novaclient_ext.create(args.label,
-                                                            args.cidr)
-    utils.print_dict(network._info)
+    ip_association = cs.ip_associations_python_novaclient_ext.create(
+        args.instance_id,
+        args.ip_association_id)
+    utils.print_dict(ip_association._info)
 
 
-@utils.arg('network_id', metavar='<network_id>', help='ID of network')
-def do_network_delete(cs, args):
+@utils.arg('ip_association_id',
+           metavar='<ip_association_id>',
+           help='ID of IP association')
+@utils.arg('instance_id',
+           metavar='<instance_id>',
+           help='ID of instance')
+def do_ip_association_delete(cs, args):
     """
-    Delete a network
+    Delete an IP association
     """
-    cs.os_networksv2_python_novaclient_ext.delete(args.network_id)
+    cs.ip_associations_python_novaclient_ext.delete(
+        args.instance_id, args.ip_association_id)
