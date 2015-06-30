@@ -48,18 +48,18 @@ class IPAssociationManager(base.ManagerWithFind):
         return response
 
 
-@utils.arg('ip_association_id',
-           metavar='<ip_association_id>',
-           help='ID of IP association')
 @utils.arg('instance_id',
            metavar='<instance_id>',
            help='ID of instance')
+@utils.arg('ip_association_id',
+           metavar='<ip_association_id>',
+           help='ID of IP association')
 def do_ip_association(cs, args):
     """
     Show an IP association
     """
     ip_association = cs.ip_associations_python_novaclient_ext.get(
-        args.instace_id, args.ip_association_id)
+        args.instance_id, args.ip_association_id)
     utils.print_dict(ip_association._info)
 
 
@@ -78,12 +78,12 @@ def do_ip_association_list(cs, args):
     utils.print_list(ip_associations, ['ID', 'Address'])
 
 
-@utils.arg('ip_association_id',
-           metavar='<ip_association_id>',
-           help='ID of IP association')
 @utils.arg('instance_id',
            metavar='<instance_id>',
            help='ID of instance')
+@utils.arg('ip_association_id',
+           metavar='<ip_association_id>',
+           help='ID of IP association')
 def do_ip_association_create(cs, args):
     """
     Create an IP association
@@ -94,12 +94,12 @@ def do_ip_association_create(cs, args):
     utils.print_dict(ip_association._info)
 
 
-@utils.arg('ip_association_id',
-           metavar='<ip_association_id>',
-           help='ID of IP association')
 @utils.arg('instance_id',
            metavar='<instance_id>',
            help='ID of instance')
+@utils.arg('ip_association_id',
+           metavar='<ip_association_id>',
+           help='ID of IP association')
 def do_ip_association_delete(cs, args):
     """
     Delete an IP association
