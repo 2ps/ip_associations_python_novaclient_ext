@@ -1,12 +1,23 @@
-=================================
+=====================================
 ip_associations_python_novaclient_ext
-=================================
+=====================================
 
 Adds IP association extension support to python-novaclient.
 
-This extension is autodiscovered once installed. To use::
+Install
+=======
 
-    pip install ip_associations_python_novaclient_ext
+::
+
+   pip install ip_associations_python_novaclient_ext
+
+
+Usage
+=====
+
+This extension is autodiscovered once installed.
+
+::
 
     nova ip-association              Show an IP association
     nova ip-association-create       Create an IP association
