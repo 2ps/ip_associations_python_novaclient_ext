@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from novaclient import base
-from novaclient.openstack.common import cliutils as utils
+from novaclient import base, utils
+from novaclient.openstack.common import cliutils
 
 
 class IPAssociation(base.Resource):
@@ -48,12 +48,12 @@ class IPAssociationManager(base.ManagerWithFind):
         return response
 
 
-@utils.arg('instance_id',
-           metavar='<instance_id>',
-           help='ID of instance')
-@utils.arg('ip_association_id',
-           metavar='<ip_association_id>',
-           help='ID of IP association')
+@cliutils.arg('instance_id',
+              metavar='<instance_id>',
+              help='ID of instance')
+@cliutils.arg('ip_association_id',
+              metavar='<ip_association_id>',
+              help='ID of IP association')
 def do_ip_association(cs, args):
     """
     Show an IP association
@@ -66,9 +66,9 @@ def do_ip_association(cs, args):
 do_ip_association_show = do_ip_association
 
 
-@utils.arg('instance_id',
-           metavar='<instance_id>',
-           help='ID of instance')
+@cliutils.arg('instance_id',
+              metavar='<instance_id>',
+              help='ID of instance')
 def do_ip_association_list(cs, args):
     """
     List IP associations
@@ -78,12 +78,12 @@ def do_ip_association_list(cs, args):
     utils.print_list(ip_associations, ['ID', 'Address'])
 
 
-@utils.arg('instance_id',
-           metavar='<instance_id>',
-           help='ID of instance')
-@utils.arg('ip_association_id',
-           metavar='<ip_association_id>',
-           help='ID of IP association')
+@cliutils.arg('instance_id',
+              metavar='<instance_id>',
+              help='ID of instance')
+@cliutils.arg('ip_association_id',
+              metavar='<ip_association_id>',
+              help='ID of IP association')
 def do_ip_association_create(cs, args):
     """
     Create an IP association
@@ -94,12 +94,12 @@ def do_ip_association_create(cs, args):
     utils.print_dict(ip_association._info)
 
 
-@utils.arg('instance_id',
-           metavar='<instance_id>',
-           help='ID of instance')
-@utils.arg('ip_association_id',
-           metavar='<ip_association_id>',
-           help='ID of IP association')
+@cliutils.arg('instance_id',
+              metavar='<instance_id>',
+              help='ID of instance')
+@cliutils.arg('ip_association_id',
+              metavar='<ip_association_id>',
+              help='ID of IP association')
 def do_ip_association_delete(cs, args):
     """
     Delete an IP association
