@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from novaclient import base, utils
-from novaclient.openstack.common import cliutils
+from novaclient import utils
 
 
 class IPAssociation(base.Resource):
@@ -48,10 +48,10 @@ class IPAssociationManager(base.ManagerWithFind):
         return response
 
 
-@cliutils.arg('instance_id',
+@utils.arg('instance_id',
               metavar='<instance_id>',
               help='ID of instance')
-@cliutils.arg('ip_association_id',
+@utils.arg('ip_association_id',
               metavar='<ip_association_id>',
               help='ID of IP association')
 def do_ip_association(cs, args):
@@ -66,7 +66,7 @@ def do_ip_association(cs, args):
 do_ip_association_show = do_ip_association
 
 
-@cliutils.arg('instance_id',
+@utils.arg('instance_id',
               metavar='<instance_id>',
               help='ID of instance')
 def do_ip_association_list(cs, args):
@@ -78,10 +78,10 @@ def do_ip_association_list(cs, args):
     utils.print_list(ip_associations, ['ID', 'Address'])
 
 
-@cliutils.arg('instance_id',
+@utils.arg('instance_id',
               metavar='<instance_id>',
               help='ID of instance')
-@cliutils.arg('ip_association_id',
+@utils.arg('ip_association_id',
               metavar='<ip_association_id>',
               help='ID of IP association')
 def do_ip_association_create(cs, args):
@@ -94,10 +94,10 @@ def do_ip_association_create(cs, args):
     utils.print_dict(ip_association._info)
 
 
-@cliutils.arg('instance_id',
+@utils.arg('instance_id',
               metavar='<instance_id>',
               help='ID of instance')
-@cliutils.arg('ip_association_id',
+@utils.arg('ip_association_id',
               metavar='<ip_association_id>',
               help='ID of IP association')
 def do_ip_association_delete(cs, args):
