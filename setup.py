@@ -16,7 +16,7 @@ import setuptools
 
 setuptools.setup(
     name='ip_associations_python_novaclient_ext',
-    version='0.2',
+    version='0.3.1',
     description='Adds Rackspace ip_associations support to python-novaclient',
     long_description=open('README.rst').read(),
     author='Rackspace',
